@@ -15,7 +15,12 @@ Including another URLconf
 """
 import xadmin
 from django.urls import path
+from django.views.generic import TemplateView
+from users.views import user_login
 
+#路径前面不需要加/，否则会出错
 urlpatterns = [
     path('xadmin/', xadmin.site.urls),
+    path('', TemplateView.as_view(template_name='index.html'), name='index'),
+    path('login/', user_login, name='login'),
 ]
