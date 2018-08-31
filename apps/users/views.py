@@ -12,7 +12,7 @@ from utils.email_send import send_register_email
 # Create your views here.
 
 
-#邮箱和用户名都可以登录
+# 邮箱和用户名都可以登录
 # 基础ModelBackend类，因为它有authenticate方法
 class CustomBackend(ModelBackend):
     def authenticate(self, request, username=None, password=None, **kwargs):

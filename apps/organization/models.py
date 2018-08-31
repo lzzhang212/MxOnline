@@ -15,20 +15,34 @@ class CityDict(models.Model):
         verbose_name = u'城市'
         verbose_name_plural = verbose_name
 
+    def __str__(self):
+        return self.name
+
 
 class CourseOrg(models.Model):
+    ORG_CHOICES = (
+        ("pxjg", u"培训机构"),
+        ("gx", u"高校"),
+        ("gr", u"个人"),
+    )
     name = models.CharField(max_length=50, verbose_name=u'机构名')
     desc = models.TextField(verbose_name=u'机构描述')
+    category = models.CharField(verbose_name=u'机构类别', default='pxjg', choices=ORG_CHOICES, max_length=20)
     click_nums = models.IntegerField(default=0, verbose_name=u'点击数')
     fav_nums = models.IntegerField(default=0, verbose_name=u'点击数')
-    image = models.ImageField(upload_to='course/%Y/%m', verbose_name=u'封面图', max_length=100)
+    image = models.ImageField(upload_to='org/%Y/%m', verbose_name=u'封面图', max_length=100)
     address = models.CharField(max_length=100, null=True, blank=True, verbose_name=u'机构地址')
     city = models.ForeignKey(CityDict, on_delete=models.CASCADE, verbose_name=u'所在城市')
     add_time = models.DateTimeField(default=datetime.now)
+    students = models.IntegerField(default=0, verbose_name=u'学习人数')
+    course_nums = models.IntegerField(default=0, verbose_name=u'课程数')
 
     class Meta:
         verbose_name=u'课程机构'
         verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.name
 
 
 class Teacher(models.Model):
@@ -44,4 +58,7 @@ class Teacher(models.Model):
     class Meta:
         verbose_name = u'教师'
         verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.name
 
