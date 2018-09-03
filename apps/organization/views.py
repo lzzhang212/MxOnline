@@ -79,7 +79,7 @@ class OrgHomeView(View):
         # 根据id找到课程机构
         course_org = CourseOrg.objects.get(id=int(org_id))
         has_fav = False
-        if request.user.is_authenticated():
+        if request.user.is_authenticated:
             if UserFavorite.objects.filter(user=request.user, fav_id=course_org.id, fav_type=2):
                 has_fav = True
         # 反向查询到课程机构的所有课程和老师
@@ -102,7 +102,7 @@ class OrgCourseView(View):
         # 反向查询到课程机构的所有课程和老师
         all_courses = course_org.course_set.all()
         has_fav = False
-        if request.user.is_authenticated():
+        if request.user.is_authenticated:
             if UserFavorite.objects.filter(user=request.user, fav_id=course_org.id, fav_type=2):
                 has_fav = True
 
@@ -121,7 +121,7 @@ class OrgDescView(View):
         course_org = CourseOrg.objects.get(id=int(org_id))
 
         has_fav = False
-        if request.user.is_authenticated():
+        if request.user.is_authenticated:
             if UserFavorite.objects.filter(user=request.user, fav_id=course_org.id, fav_type=2):
                 has_fav = True
 
@@ -140,7 +140,7 @@ class OrgTeacherView(View):
         all_teachers = course_org.teacher_set.all()
 
         has_fav = False
-        if request.user.is_authenticated():
+        if request.user.is_authenticated:
             if UserFavorite.objects.filter(user=request.user, fav_id=course_org.id, fav_type=2):
                 has_fav = True
 
@@ -157,7 +157,7 @@ class AddFavView(View):
         fav_id = request.POST.get('fav_id', 0)
         fav_type = request.POST.get('fav_type', 0)
 
-        if not request.user.is_authenticated():
+        if not request.user.is_authenticated:
             return HttpResponse("{'status':'fail', 'msg':'用户未登陆'}", content_type='application/json')
 
         exist_records = UserFavorite.objects.filter(user=request, fav_id=int(fav_id), fav_type=int(fav_type))

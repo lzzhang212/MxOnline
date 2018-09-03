@@ -34,5 +34,6 @@ urlpatterns = [
     re_path('^reset/(?P<active_code>.*)/$', ResetView.as_view(), name='reset_pwd'),
     path('modify_pwd/', ModifyPwdView.as_view(), name='modify_pwd'),
     path('org/', include('organization.urls', namespace='org')),
+    path('course/', include('courses.urls', namespace='course')),
     re_path(r'^media/(?P<path>.*)', serve, {'document_root':MEDIA_ROOT}),
 ]
