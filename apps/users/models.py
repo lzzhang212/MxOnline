@@ -10,7 +10,8 @@ from django.contrib.auth.models import AbstractUser
 class UserProfile(AbstractUser):
     nick_name = models.CharField(max_length=50, verbose_name=u'昵称', default='')
     birth = models.DateField(verbose_name=u'生日', null=True, blank=True)
-    gender = models.CharField(choices=(('male', u'男'), ('female', u'女')), default='female', max_length=6, verbose_name=u'性别')
+    gender = models.CharField(choices=(('male', u'男'), ('female', u'女')), default='female', max_length=6, \
+                              verbose_name=u'性别')
     address = models.CharField(max_length=100, null=True, blank=True, verbose_name=u'地址')
     mobile = models.CharField(max_length=11, verbose_name=u'手机', null=True, blank=True)
     image = models.ImageField(upload_to='image/%Y/%m', default=u'image/default.png', max_length=100)
@@ -27,7 +28,8 @@ class UserProfile(AbstractUser):
 class EmailVerifyRecord(models.Model):
     code = models.CharField(max_length=20, verbose_name=u'验证码')
     email = models.EmailField(max_length=50, verbose_name=u'邮箱')
-    send_type = models.CharField(choices=(('regiester',u'注册'),('forget',u'找回密码')), max_length=10, verbose_name=u'发送类型')
+    send_type = models.CharField(choices=(('register', u'注册'), ('forget', u'找回密码'),
+                                          ('update_email', u'修改邮箱')), max_length=30, verbose_name=u'发送类型')
     send_time = models.DateTimeField(default=datetime.now, verbose_name=u'发送时间')
 
     class Meta:

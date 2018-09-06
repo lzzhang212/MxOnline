@@ -2,12 +2,14 @@ from django.shortcuts import render
 from django.views.generic.base import View
 from django.http import HttpResponse
 from pure_pagination import Paginator, PageNotAnInteger
+from django.db.models import Q
 
 from .models import Course, CourseResource
 from operation.models import UserFavorite, CourseComments, UserCourse
 from utils.mixin_utils import LoginRequiredMixin
 
 # Create your views here.
+
 
 class CourseListView(View):
     """
@@ -18,6 +20,10 @@ class CourseListView(View):
         all_courses = Course.objects.all().order_by('-add_time')
         # 热门课程推荐
         hot_courses = Course.objects.all().order_by('-click_nums')[:3]
+        # 搜索功能
+        search_keywords = request.GET.get('keywords', '')
+        if search_keywords:
+            all_courses = all_courses.filter(Q(name__icontains=search_keywords) | Q(desc__icontains=search_keywords) | Q(detail__icontains=search_keywords))
         # 排序
         sort = request.GET.get('sort', '')
         if sort:
@@ -89,6 +95,9 @@ class CourseInfoView(LoginRequiredMixin, View):
             # 如果没有学习该门课程就关联起来
             user_course = UserCourse(user=request.user, course=course)
             user_course.save()
+            # 学习人数加1
+            course.students += 1
+            course.save()
 
         # 相关课程推荐
         # 找到学习这门课的所有用户
@@ -105,7 +114,7 @@ class CourseInfoView(LoginRequiredMixin, View):
         return render(request, 'course-video.html', {
             "course": course,
             "all_resources": all_resources,
-            "relate_courses":relate_courses,
+            "relate_courses": relate_courses,
         })
 
 
