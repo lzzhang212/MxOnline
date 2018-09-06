@@ -29,11 +29,11 @@ class CourseOrg(models.Model):
     desc = models.TextField(verbose_name=u'机构描述')
     category = models.CharField(verbose_name=u'机构类别', default='pxjg', choices=ORG_CHOICES, max_length=20)
     click_nums = models.IntegerField(default=0, verbose_name=u'点击数')
-    fav_nums = models.IntegerField(default=0, verbose_name=u'点击数')
+    fav_nums = models.IntegerField(default=0, verbose_name=u'收藏数')
     image = models.ImageField(upload_to='org/%Y/%m', verbose_name=u'封面图', max_length=100)
     address = models.CharField(max_length=100, null=True, blank=True, verbose_name=u'机构地址')
     city = models.ForeignKey(CityDict, on_delete=models.CASCADE, verbose_name=u'所在城市')
-    add_time = models.DateTimeField(default=datetime.now)
+    add_time = models.DateTimeField(default=datetime.now, verbose_name=u'添加时间')
     students = models.IntegerField(default=0, verbose_name=u'学习人数')
     course_nums = models.IntegerField(default=0, verbose_name=u'课程数')
 
@@ -58,6 +58,8 @@ class Teacher(models.Model):
     fav_nums = models.IntegerField(default=0, verbose_name=u'收藏人数')
     add_time = models.DateTimeField(default=datetime.now)
     image = models.ImageField(default='', upload_to='teacher/%Y/%m', verbose_name='头像', max_length=100)
+    age = models.IntegerField(default=25, verbose_name=u'年龄')
+    points = models.CharField(default='', max_length=100, verbose_name=u'教学特点')
 
     class Meta:
         verbose_name = u'教师'
